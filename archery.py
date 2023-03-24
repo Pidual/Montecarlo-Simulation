@@ -13,5 +13,11 @@ class Archer:
             gender = 0
         else:
             gender = 1
-        
-        
+
+        if ri <= 0.3: #este metodo matematicamente tiene como un 0.002 de probabilidad extra la suerte 3 o 2
+            suerte = 1
+        else if ri > 0.3 and ri <= 0.66
+            suerte = 2
+        else:
+            suerte = 3
+
