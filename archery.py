@@ -9,9 +9,9 @@ class Archer:
     
     def __init__(self): #aca para que se creen pseudo aletoriamente
         ri = random.random()
-        if random.random() < 0.5:
+        if ri < 0.5:
             gender = 0
         else:
             gender = 1
         
-    
+        
