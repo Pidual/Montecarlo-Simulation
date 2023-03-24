@@ -1,8 +1,6 @@
 import random
 
-
 class Archer:
-
     gender = None  # 0 para hombre y 1 para mujer
     endurance = None  # 35 ± 10
     experiencia = None  # Entero 10
