@@ -32,4 +32,7 @@ class Archer:
         self.max_endurance = self.endurance
     
     def update_individual_score(self, score):
-        self.individual_score = score
+        self.individual_score += score
+    
+    def restore_endurance(self):
+        self.endurance = self.max_endurance
