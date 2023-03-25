@@ -6,6 +6,7 @@ class Archer:
     endurance = None  # 35 ± 10
     experiencia = None  # Entero 10
     suerte = None  # 1 a 3
+    individual_score = None #Puntaje individual
 
     def __init__(self):  # aca para que se creen pseudo aletoriamente
         #Escoje el genero con el metodo montecarlo 0.5 de chance cada genero
@@ -29,3 +30,6 @@ class Archer:
         self.experiencia = 10
         self.individual_score = 0
         self.max_endurance = self.endurance
+    
+    def update_individual_score(self, score):
+        self.individual_score = score
