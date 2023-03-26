@@ -9,8 +9,9 @@ def start_game(team_1, team_2):
         restore_endurance(team_1, team_2)
         start_rounds(team_1, team_2)
         games -= 1
-    print("TEAM 1 SCORE: "+str(team_1.team_score))
+    print("TEAM 1 SCORE: " + str(team_1.team_score))
     print("TEAM 2 SCORE: " + str(team_2.team_score))
+
 
 def restore_endurance(team_1, team_2):
     for archer in team_1:
@@ -20,20 +21,20 @@ def restore_endurance(team_1, team_2):
 
 
 def start_rounds(team_1_local, team_2_local):
-    rounds = 10
-    while rounds > 0:
+    round = 0
+    while round > 10:
         for archer in team_1_local:
             shoot_til_tired(archer, team_1_local)
         for archer in team_2_local:
             shoot_til_tired(archer, team_2_local)
-        raffle_free_shoot(team_1_local)
-        raffle_free_shoot(team_2_local)
-        rounds -= 1
+        raffle_free_shoot(team_1_local,round)
+        raffle_free_shoot(team_2_local,round)
+        round += 1
 
 
 # Recibe un equipo y por medio del que tenga mas suerte dispara un tiro adicional
 # Agrega el puntaje al equipo pero no al individual
-def raffle_free_shoot(team):
+def raffle_free_shoot(team,round):
     max_luck = 0
     luckiest_archer = None
     for archer in team:
@@ -42,6 +43,8 @@ def raffle_free_shoot(team):
             luckiest_archer = archer
             print(str(archer))
     team.update_team_score(making_shot(luckiest_archer))
+    luckiest_archer.update_streak(round)
+
 
 
 # Dispara tiros hasta que se queda sin resistencia

@@ -8,6 +8,10 @@ class Archer:
     exp = None  # Entero 10
     luck = None  # 1 a 3
     individual_score = None  # Puntaje individual
+    first_lucky_round = None
+    second_lucky_round = None
+    last_lucky_round = None
+
 
     def __init__(self):  # aca para que se creen pseudo aletoriamente
         # Escoje el genero con el metodo montecarlo 0.5 de chance cada genero
@@ -45,3 +49,20 @@ class Archer:
             self.luck = 2
         else:
             self.luck = 3
+
+    #Acutualiza la racha de lanzamientos extra al llegar a 3 se reinicia
+    def update_streak(self,round):
+        if self.first_lucky_round is None:
+            self.first_lucky_round = round
+            return 0
+        elif round - self.first_lucky_round == 1: #if ronda4 - ronda 2 = 2 no entra // Ronda 6 - Ronda 5 = 1 entra
+            self.second_lucky_round = round
+            return 0
+        elif round - self.second_lucky_round == 1: #Si se llega a este if es que round(sinedo ronda 3) y la ronda anterior deben ser consecutivos
+            return 1
+        else:
+            self.first_lucky_round = None
+            self.second_lucky_round = None
+            return 0
+
+
