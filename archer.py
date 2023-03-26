@@ -12,7 +12,6 @@ class Archer:
     second_lucky_round = None
     last_lucky_round = None
 
-
     def __init__(self):  # aca para que se creen pseudo aletoriamente
         # Escoje el genero con el metodo montecarlo 0.5 de chance cada genero
         ri = random.random()
@@ -25,12 +24,8 @@ class Archer:
             self.endurance = 35 - random.randint(1, 10)
         else:
             self.endurance = 35 + random.randint(1, 10)
-        if ri <= 0.3:  # este metodo matematicamente tiene como un 0.002 de probabilidad extra la suerte 3 o 2
-            self.luck = 1
-        elif 0.3 < ri <= 0.66:
-            self.luck = 2
-        else:
-            self.luck = 3
+        # Flotante XD
+        self.luck = random.uniform(1, 3)
         self.exp = 10
         self.individual_score = 0
         self.max_endurance = self.endurance
@@ -42,15 +37,9 @@ class Archer:
         self.endurance = self.max_endurance
 
     def recalculate_luck(self):
-        ri = random.random()
-        if ri <= 0.3:  # este metodo matematicamente tiene como un 0.002 de probabilidad extra la suerte 3 o 2
-            self.luck = 1
-        elif 0.3 < ri <= 0.66:
-            self.luck = 2
-        else:
-            self.luck = 3
+        self.luck = random.uniform(1, 3)
 
-    #Acutualiza la racha de lanzamientos extra al llegar a 3 se reinicia
+    # Acutualiza la racha de lanzamientos extra al llegar a 3 se reinicia
     def update_streak(self, round):
         if self.first_lucky_round is None:
             self.first_lucky_round = round
@@ -68,5 +57,3 @@ class Archer:
             self.first_lucky_round = None
             self.second_lucky_round = None
             return 0
-
-
