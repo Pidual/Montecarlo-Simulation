@@ -22,19 +22,24 @@ def restore_endurance(team_1, team_2):
 
 def start_rounds(team_1_local, team_2_local):
     round = 0
-    while round > 10:
+    while round < 10:
         for archer in team_1_local:
             shoot_til_tired(archer, team_1_local)
         for archer in team_2_local:
             shoot_til_tired(archer, team_2_local)
-        raffle_free_shoot(team_1_local,round)
-        raffle_free_shoot(team_2_local,round)
+        raffle_free_shoot(team_1_local, round)
+        raffle_free_shoot(team_2_local, round)
+        #Finalizada la ronda se recalcula la suerte de todos los arqueros
+        for archer in team_1_local:
+            archer.recalculate_luck()
+        for archer in team_2_local:
+            archer.recalculate_luck()
         round += 1
 
 
 # Recibe un equipo y por medio del que tenga mas suerte dispara un tiro adicional
 # Agrega el puntaje al equipo pero no al individual
-def raffle_free_shoot(team,round):
+def raffle_free_shoot(team, round):
     max_luck = 0
     luckiest_archer = None
     for archer in team:
@@ -43,8 +48,9 @@ def raffle_free_shoot(team,round):
             luckiest_archer = archer
             print(str(archer))
     team.update_team_score(making_shot(luckiest_archer))
-    luckiest_archer.update_streak(round)
 
+    if luckiest_archer.update_streak(round) == 1:  # Realiza el tiro extra si fueron 3 rondas de suerte seguidas
+        team.update_team_score(making_shot(luckiest_archer))
 
 
 # Dispara tiros hasta que se queda sin resistencia
