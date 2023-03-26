@@ -57,3 +57,12 @@ class Archer:
             self.first_lucky_round = None
             self.second_lucky_round = None
             return 0
+
+    def round_win_reward(self):
+        self.exp += 3
+
+    def reset_exp(self):
+        self.exp = 10
+
+    def __str__(self):
+        return f"EXP: {self.exp}, Puntaje: {self.individual_score}, Gender: {self.gender}"

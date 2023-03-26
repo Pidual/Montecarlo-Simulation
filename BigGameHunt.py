@@ -4,13 +4,20 @@ import random
 
 # Empieza los juegos simulados segun la cantidad de juegos asignados
 def start_game(team_1, team_2):
-    games = 40
+    games = 60
     while games > 0:
         restore_endurance(team_1, team_2)
         start_rounds(team_1, team_2)
         games -= 1
     print("TEAM 1 SCORE: " + str(team_1.team_score))
     print("TEAM 2 SCORE: " + str(team_2.team_score))
+
+    print("Team 1 scores\n")
+    for archer in team_1:
+        print(str(archer))
+    print("Team 2 scores\n")
+    for archer in team_2:
+        print(str(archer))
 
 
 def restore_endurance(team_1, team_2):
@@ -20,21 +27,36 @@ def restore_endurance(team_1, team_2):
         archer.restore_endurance()
 
 
+# Bueno este metodo salio bien cargado juas juas juas
 def start_rounds(team_1_local, team_2_local):
     round = 0
+    max_score = 0
     while round < 10:
+        round_winner = None
         for archer in team_1_local:
-            shoot_til_tired(archer, team_1_local)
+            archer_current_score = shoot_til_tired(archer, team_1_local)  # guarda el puntaje del arquero
+            if archer_current_score > max_score:  # lo compara con el puntaje maximo
+                max_score = archer_current_score
+                round_winner = archer
         for archer in team_2_local:
-            shoot_til_tired(archer, team_2_local)
+            archer_current_score = shoot_til_tired(archer, team_2_local)
+            if archer_current_score > max_score:
+                max_score = archer_current_score
+                round_winner = archer
+        max_score = 0
         raffle_free_shoot(team_1_local, round)
         raffle_free_shoot(team_2_local, round)
-        #Finalizada la ronda se recalcula la suerte de todos los arqueros
+        round_winner.round_win_reward()
+
+        # Finalizada la ronda se recalcula la suerte de todos los arqueros
+        # Finalizada la ronda se recalcula la experiencia de todos los arqueros
         for archer in team_1_local:
             archer.recalculate_luck()
+            archer.reset_exp()
         for archer in team_2_local:
             archer.recalculate_luck()
-        round += 1
+            archer.reset_exp()
+        round += 1  # Aumenta la ronda
 
 
 # Recibe un equipo y por medio del que tenga mas suerte dispara un tiro adicional
@@ -48,32 +70,29 @@ def raffle_free_shoot(team, round):
             luckiest_archer = archer
             print(str(archer))
     team.update_team_score(making_shot(luckiest_archer))
-
     if luckiest_archer.update_streak(round) == 1:  # Realiza el tiro extra si fueron 3 rondas de suerte seguidas
         team.update_team_score(making_shot(luckiest_archer))
 
 
 # Dispara tiros hasta que se queda sin resistencia
 # Le agrega al final el puntaje individual
-def shoot_til_tired(Archer, team):
+def shoot_til_tired(archer, team):
     print("\n############################################################\n")
-    print("la resistencia inicial es " + str(Archer.endurance))
-    endurance = Archer.endurance
+    print("la resistencia inicial es " + str(archer.endurance))
+    endurance = archer.endurance
     individual_score = 0
     while endurance > 5:  # Realiza tiro, regresa el puntaje del tiro
-        individual_score += making_shot(Archer)
+        individual_score += making_shot(archer)
         print("RESISTENCIA: " + str(endurance))
         endurance -= 5
     if random.random() < 0.5:
-        Archer.endurance -= 2
+        archer.endurance -= 2
     else:
-        Archer.endurance -= 1
+        archer.endurance -= 1
     print("Score: ", individual_score)
-    # Establece el score individual en el Archer
-    Archer.update_individual_score(individual_score)
-    team.update_team_score(individual_score)
-    print("Score Individual: ", Archer.individual_score)
-    print("la resistencia bajo a " + str(Archer.endurance))
+    archer.update_individual_score(individual_score)  # Establece el score individual en el Archer
+    team.update_team_score(individual_score)  # Suma el puntaje del arquero
+    return individual_score
 
 
 # Recibe el arquero, valida el genero y establece las probabilidades
