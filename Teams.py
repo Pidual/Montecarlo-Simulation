@@ -6,6 +6,7 @@ class Team(list):
     round_wins = 0
 
     def __init__(self):
+        super().__init__()
         self.team = [Archer(), Archer(), Archer(), Archer(), Archer()]
 
     def update_team_score(self, score):
@@ -16,6 +17,9 @@ class Team(list):
 
     def increment_round_wins(self):
         self.round_wins += 1
+
+    def reset_score(self):
+        self.team_score = 0
 
     def __str__(self):
         return f"Puntaje Equipo: {self.team_score}, Wins: {self.round_wins}"
@@ -30,3 +34,4 @@ class Team(list):
         result = self.team[self.index]
         self.index += 1
         return result
+
